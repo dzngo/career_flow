@@ -1,0 +1,9 @@
+google-ai-generativelanguage==0.6.17
+langchain==0.3.21
+langchain-community==0.3.12
+langchain-core==0.3.47
+langchain-google-genai==2.1.1
+langsmith==0.2.11
+torch==2.6.0
+torchtext==0.18.0
+python-dotenv==1.0.1

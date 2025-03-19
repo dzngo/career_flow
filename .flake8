@@ -1,0 +1,8 @@
+[flake8]
+extend-ignore = E203, E501, W503, C901, B008
+# line length is intentionally set to 80 here because black uses Bugbear
+# See https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#line-length for more details
+max-line-length = 120
+max-complexity = 18
+# Setting sources https://github.com/PyCQA/flake8-bugbear
+select = C,E,F,W,B,B950

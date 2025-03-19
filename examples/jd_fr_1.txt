@@ -1,0 +1,40 @@
+About the job
+Ce Que Nous Allons Accomplir Ensemble
+
+Dans le cadre d’un consortium européen regroupant des acteurs industriels majeurs de l’aéronautique, vous rejoindrez une équipe
+
+dédiée à l’interprétation de systèmes mettant en jeu le machine learning et l’intelligence artificielle. L’objectif sera de rendre le système capable de suivre les différents paramètres de l’état psychophysiologique du pilote. Cela permettra au système de s’adapter au pilote et de proposer des stratégies de vol optimisant la réussite de la mission ainsi que la
+
+survivabilité.
+
+Nos Plus
+
+Astek est green et fait bénéficier ses salariés d’une indemnité kilométrique vélo
+Une politique CARE sur-mesure déployée par nos équipes RH pour nos collaborateurs (https://astekgroup.fr/engagements)
+Notre charte de la Diversité
+
+Votre mission (...si vous l’acceptez !) :
+
+Dans un premier temps vous cadrerez les éléments fonctionnels de la solution en vue de répondre au besoin.
+
+Vous développerez en C ++ / et ou Python et optimiserez les algorithmes d’intelligence artificielle. Vous participerez à la mise en œuvre du système d’apprentissage.
+
+Votre Stack De Jeu
+
+machine learning, algo, c++, python
+
+Vous
+
+De formation Ingénieur, ou doctorat., idéalement en machine learning, deep learning, data science.
+
+Vous êtes passionnés par le domaine aéronautique et les technologies d’Intelligence Artificielle.
+
+Vous êtes heureux lorsque vous avez acquis de nouvelles compétences dans la journée !
+
+Rencontrons-nous !
+
+Vous vous êtes reconnu sur l’annonce et Astek vous plaît ? Postulez directement sur cette annonce, afin que Franck, notre Talent Acquisition Officer, puisse vous contacter pour un premier échange. Léonard, votre futur Manager, vous proposera ensuite d’échanger autour de cette opportunité, de votre parcours et de vos attentes...." ]
+
+Mots-clés
+
+machine learning, algo, c++, python

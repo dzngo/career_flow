@@ -1,0 +1,90 @@
+About the job
+Mission Highlights
+
+
+
+As a Machine Learning Engineer, your role will be to translate complex ML algorithms for materials property prediction from conceptual frameworks into robust, scalable models within our platform. You will collaborate closely with our research and engineering teams (~15 people) to enhance the performance, scalability and impact of our AI-driven solutions.
+
+
+Role & responsibilities
+
+
+
+By contributing to the core of our discovery platform, this position directly supports the company’s mission of discovering materials to optimize carbon intensive industries. You will be responsible for:
+
+
+Algorithm development: implement, evaluate and optimize machine learning algorithms based on cutting-edge research and internal insights. Ensure that they are efficient and well-integrated into our platform.
+Data engineering: develop scalable storage & retrieval processes to sore heterogenous data sets across various modalities (text, point clouds, images etc.)
+Model Integration and management: Oversee the full lifecycle of machine learning models, including data collection, integration, versioning, deployment and maintenance within our platform infrastructure.
+Reproducibility and traceability: Establish systems and practices ensuring that all experiments and models are reproducible and traceable.
+Research: Stay current with the latest ML advancements in the field and suggest integrations that may improve the platform performance and capabilities.
+Collaboration: Work closely with data scientists, chemists, and other engineers to understand requirements and deliver solutions that enhance our research capabilities.
+
+
+You may not tick all the boxes, but you should still consider applying if you believe your skillset and mindset are relevant to our mission. We are willing to adjust our expectations to out-of-distribution excellent, kind and mission-driven candidates.
+
+
+Profile
+
+PhD or M.S in Computer Science, Machine Learning or a closely related field, with a focus on deep learning.
+4+ years of industry experience in machine learning and software engineering-related positions which involved training Deep Learning models
+Experience training on multi-GPU infrastructures
+Proven track record of working with at least 2 data modalities (text, vision, time series, point clouds, biological data etc.)
+Excellent communication skills in English.
+Proven ability to work with interdisciplinary teams.
+Thrives in a fast-paced, evolving startup environment.
+Bonuses:
+
+You have a publication record in top-tier ML conferences or journals
+You have demonstrated experience in designing and running large-scale ML experiments on SLURM-based clusters.
+You have already played with materials datasets.
+
+
+Expertise
+
+
+
+Machine Learning: Deep understanding of ML theories and practices, especially related to reproducibility, scalability and transfer learning.
+Programming: Excellent Python software engineering skills, with a particular focus on PyTorch with experience in software development best practices and version control systems such as Git.
+Data management: Familiarity with data structures and database systems, both SQL and NoSQL, to manage and process large datasets efficiently.
+AI platforms: Experience with deploying and managing machine learning models, including familiarity with containerization technologies (e.g., Docker, Kubernetes) and cloud platforms (GCP / AWS / Azure etc.).
+
+
+About Entalpic
+
+
+
+We are a dedicated team at the forefront of AI and chemistry, working to accelerate the energy transition. Our focus is on discovering new chemicals and materials that can lead to more sustainable practices in sectors where the need for change is most urgent. Specifically, we develop a modern generative AI platform to discover new catalysts that optimize chemical reactions, significantly reducing CO2 emissions and thus making a substantial impact on the environment.
+
+
+As an early-stage AI-driven startup backed by significant funding (>8m), we base our approach on state-of-the-art academic research to drive practical business solutions. We value clear communication and simplicity in our approaches, promoting a constant optimization mindset.
+
+
+Join Entalpic to be part of a growing team, eager to learn and adapt, united by the belief that our technology can make a significant positive impact and contribute to transforming carbon-intensive industries for a sustainable future.
+
+
+Co-founders: Mathieu Galtier, Victor Schmidt, Alexandre Duval
+
+
+
+Entalpic is dedicated to equal opportunity employment and fosters an environment that is open and respectful of diversity. All applicants are encouraged to apply, even if you don’t meet all above requirements. If you have passion for our mission and believe you can contribute, we want to hear from you.
+
+
+Reporting & Job Location
+
+
+
+You will report to the CTO of Entalpic and will be located in our Paris offices.
+
+
+Compensation & benefits
+
+
+
+We are a no-nonsense startup, where we favor a sustainable culture promoting work-life balance and good compensation over foosball tables and free food. We offer:
+A competitive salary
+Equity (BSPCE), to reflect the value you bring to Entalpic and to foster a shared journey
+Comprehensive health insurance (Alan blue)
+French level paid leave and time-off work
+Dynamic work setting. Although our preference is for in-person collaboration, we will be flexible with occasional remote work arrangements.
+and more to come as we grow
