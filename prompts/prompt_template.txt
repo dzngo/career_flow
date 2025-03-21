@@ -16,7 +16,9 @@ requirements: A comma-separated list of required qualifications and experience.
 skills:
   hard_skills: A comma-separated list of required technical skills.
   soft_skills: A comma-separated list of required soft skills.
-education: The required degree or certifications. If not specified, output "Not specified".
+education:
+  degrees: A comma-separated list of required degrees or certifications (e.g., "Bachelor's in Computer Science, Master's in Data Science, PhD"). If not specified, output "Not specified".
+  fields_of_study: A comma-separated list of required academic fields (e.g., "Computer Science, Artificial Intelligence"). If not specified, output "Not specified".
 benefits: A comma-separated list of job benefits (e.g., Health Insurance, Remote Work). If not found, output "None".
 job_posting_date: The date when the job was posted. If not mentioned, output "Unknown".
 application_deadline: The application deadline if available. If not found, output "Unknown".
@@ -35,5 +37,10 @@ education
 benefits
 job_posting_date
 application_deadline
+
+Ensure that:
+- **Degrees** are listed separately and not combined using "or".
+- **Fields of study** are properly separated by commas.
+- **The output is always a valid JSON object.**
 
 job_description: {text}
