@@ -7,4 +7,5 @@ langsmith==0.2.11
 torch==2.6.0
 torchtext==0.18.0
 python-dotenv==1.0.1
-pandas
+beautifulsoup4==4.13.3
+pandas==2.2.3
