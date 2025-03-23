@@ -19,19 +19,13 @@ def parse_args():
     parser.add_argument(
         "--extraction_prompt_path",
         type=str,
-        default="prompts/jd_extraction.txt",
-        help="Path to prompt template",
-    )
-    parser.add_argument(
-        "--lang_detection_prompt_path",
-        type=str,
-        default="prompts/language_detection",
+        default="extractor/prompts/jd_extraction.txt",
         help="Path to prompt template",
     )
     parser.add_argument(
         "--translation_prompt_path",
         type=str,
-        default="prompts/translation.txt",
+        default="extractor/prompts/translation.txt",
         help="Path to prompt template",
     )
     parser.add_argument("--jd-path", type=str, required=True, help="Path to job description")
@@ -50,21 +44,12 @@ if __name__ == "__main__":
     with open(args["extraction_prompt_path"], "r", encoding="utf-8") as f:
         jd_extraction_prompt = ChatPromptTemplate.from_template(f.read())
 
-    with open(args["lang_detection_prompt_path"], "r", encoding="utf-8") as f:
-        jd_lang_detection_prompt = ChatPromptTemplate.from_template(f.read())
-
     with open(args["translation_prompt_path"], "r", encoding="utf-8") as f:
         jd_translation_prompt = ChatPromptTemplate.from_template(f.read())
 
-    language_chain = jd_lang_detection_prompt | llm | StrOutputParser()
     translate_chain = jd_translation_prompt | llm | StrOutputParser()
     jd_extraction_chain = jd_extraction_prompt | llm | JsonOutputParser()
+    full_chain = translate_chain | jd_extraction_chain
 
-    detected_language = language_chain.invoke({"text": jd_text}).strip()
-    if detected_language.lower() != "english":
-        print(f"Detected language: {detected_language}. Translating to English...")
-        jd_text = translate_chain.invoke({"text": jd_text}).strip()
-    else:
-        print("Job description is already in English. Skipping translation.")
-    response = jd_extraction_chain.invoke({"text": jd_text})
+    response = full_chain.invoke({"text": jd_text})
     pprint(response)
