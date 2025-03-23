@@ -17,21 +17,21 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description="JD information extraction demo")
     parser.add_argument(
-        "--prompt_extraction_path",
+        "--extraction_prompt_path",
         type=str,
-        default="prompts/prompt_jd_extraction_template.txt",
+        default="prompts/jd_extraction.txt",
         help="Path to prompt template",
     )
     parser.add_argument(
-        "--prompt_lang_detection_path",
+        "--lang_detection_prompt_path",
         type=str,
-        default="prompts/language_detection_template",
+        default="prompts/language_detection",
         help="Path to prompt template",
     )
     parser.add_argument(
-        "--prompt_translation_path",
+        "--translation_prompt_path",
         type=str,
-        default="prompts/prompt_translate_template.txt",
+        default="prompts/translation.txt",
         help="Path to prompt template",
     )
     parser.add_argument("--jd-path", type=str, required=True, help="Path to job description")
@@ -47,13 +47,13 @@ if __name__ == "__main__":
     with open(args["jd_path"], "r", encoding="utf-8") as f:
         jd_text = f.read()
 
-    with open(args["prompt_extraction_path"], "r", encoding="utf-8") as f:
+    with open(args["extraction_prompt_path"], "r", encoding="utf-8") as f:
         jd_extraction_prompt = ChatPromptTemplate.from_template(f.read())
 
-    with open(args["prompt_lang_detection_path"], "r", encoding="utf-8") as f:
+    with open(args["lang_detection_prompt_path"], "r", encoding="utf-8") as f:
         jd_lang_detection_prompt = ChatPromptTemplate.from_template(f.read())
 
-    with open(args["prompt_translation_path"], "r", encoding="utf-8") as f:
+    with open(args["translation_prompt_path"], "r", encoding="utf-8") as f:
         jd_translation_prompt = ChatPromptTemplate.from_template(f.read())
 
     language_chain = jd_lang_detection_prompt | llm | StrOutputParser()
