@@ -1,0 +1,41 @@
+L'entreprise :
+
+Créée en 2016 par un docteur en machine learning spécialiste du Real Time Bidding cette société propose aujourd’hui un produit 100% basé sur l'IA pour révolutionner le fonctionnement des trading desk.
+
+Classée dans le top 100 des startup françaises les plus innovantes ces 2 dernières années vous rejoignez une des plus belles aventures techniques du moment ! Ils ont d'ailleurs été racheté récemment ce qui leur offre de belles perspectives pour le futur.
+
+Tes missions :
+
+- Améliorer en permanence les fonctionnalités du produit et les briques des algorithmes
+
+- Travailler avec les équipes commerciales pour identifier les use case où faire intervenir l'IA
+
+- Créer, implémenter et déployer de nouveaux algorithmes pour chaque business case identifiés
+
+- Lire et implémenter en permanence les derniers papiers de recherche sur le sujet
+
+- Travailler sur la scalabilité des modèles (des millions de données en temps réel) pour les déployer en production à l'échelle.
+
+
+
+Toi :
+
+- Tu es diplômé(e) d'une très belle école d'ingénieur avec une formation en data science et mathématiques appliqués
+
+- Tu as entre 6 mois et 4 ans d'expérience en tant que Machine Learning Engineer
+
+- Si tu as de l'expérience sur la partie software c'est encore mieux :))
+
+- Tu es sensible aux bonne pratiques, avoir un code propre et scalable etc.
+
+
+
+Pourquoi eux ?
+
+- Travailler sur un vrai produit 100% IA
+
+- Monter en compétences sur de la mise en prod et la partie software
+
+- Une équipe de data science composée d'une dizaine de personnes très solides techniquement
+
+- Des bureaux au centre de Paris avec un rythme hybride de télétravail

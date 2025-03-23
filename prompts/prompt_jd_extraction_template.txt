@@ -3,7 +3,9 @@ title: The job title (e.g., Software Engineer, Data Scientist).
 industry: The industry of the job (e.g., Tech, Finance, Healthcare).
 employment_type: The type of employment (e.g., Full-time, Part-time, Contract, Internship).
 required_experience:
-  years: Number of years of experience required. If not specified, output -1.
+  years:
+    min: The minimum number of years of experience required. Recalculate the number of months into year. If not specified, output -1.
+    max: The maximum number of years of experience required. Recalculate the number of months into year. If not specified, output -1.
   level: Experience level if mentioned (e.g., Entry, Mid, Senior). If not found, output "Unknown".
 salary:
   min: The minimum salary offered. If not specified, output -1.
@@ -12,7 +14,6 @@ salary:
   frequency: Salary payment frequency (e.g., Hourly, Monthly, Yearly). If not mentioned, output "Unknown".
 job_description: A brief summary of the job description.
 responsibilities: A comma-separated list of key job responsibilities.
-requirements: A comma-separated list of required qualifications and experience.
 skills:
   hard_skills: A comma-separated list of required technical skills.
   soft_skills: A comma-separated list of required soft skills.
@@ -31,7 +32,6 @@ required_experience
 salary
 job_description
 responsibilities
-requirements
 skills
 education
 benefits

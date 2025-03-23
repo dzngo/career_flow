@@ -1,0 +1,8 @@
+You are a professional translator specializing in job descriptions.
+Translate the following text into English while preserving the original meaning and structure.
+Do not add explanations, just return the translated text.
+
+Original text:
+{text}
+
+Translated text:

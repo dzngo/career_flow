@@ -4,7 +4,7 @@ from pprint import pprint
 
 from dotenv import load_dotenv
 from langchain.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.output_parsers import JsonOutputParser, StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
@@ -17,7 +17,22 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description="JD information extraction demo")
     parser.add_argument(
-        "--prompt_template_path", type=str, default="prompts/prompt_template.txt", help="Path to prompt template"
+        "--prompt_extraction_path",
+        type=str,
+        default="prompts/prompt_jd_extraction_template.txt",
+        help="Path to prompt template",
+    )
+    parser.add_argument(
+        "--prompt_lang_detection_path",
+        type=str,
+        default="prompts/language_detection_template",
+        help="Path to prompt template",
+    )
+    parser.add_argument(
+        "--prompt_translation_path",
+        type=str,
+        default="prompts/prompt_translate_template.txt",
+        help="Path to prompt template",
     )
     parser.add_argument("--jd-path", type=str, required=True, help="Path to job description")
 
@@ -28,16 +43,28 @@ if __name__ == "__main__":
     llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
 
     args = parse_args()
-    jd_template_pth = args["prompt_template_path"]
-    with open(jd_template_pth, "r", encoding="utf-8") as f:
-        jd_template_str = f.read()
-    jd_example_pth = args["jd_path"]
-    with open(jd_example_pth, "r", encoding="utf-8") as f:
-        jd_str = f.read()
 
-    jd_template = ChatPromptTemplate.from_template(jd_template_str)
-    output_parser = JsonOutputParser()
+    with open(args["jd_path"], "r", encoding="utf-8") as f:
+        jd_text = f.read()
 
-    chain = jd_template | llm | output_parser
-    response = chain.invoke({"text": jd_str})
+    with open(args["prompt_extraction_path"], "r", encoding="utf-8") as f:
+        jd_extraction_prompt = ChatPromptTemplate.from_template(f.read())
+
+    with open(args["prompt_lang_detection_path"], "r", encoding="utf-8") as f:
+        jd_lang_detection_prompt = ChatPromptTemplate.from_template(f.read())
+
+    with open(args["prompt_translation_path"], "r", encoding="utf-8") as f:
+        jd_translation_prompt = ChatPromptTemplate.from_template(f.read())
+
+    language_chain = jd_lang_detection_prompt | llm | StrOutputParser()
+    translate_chain = jd_translation_prompt | llm | StrOutputParser()
+    jd_extraction_chain = jd_extraction_prompt | llm | JsonOutputParser()
+
+    detected_language = language_chain.invoke({"text": jd_text}).strip()
+    if detected_language.lower() != "english":
+        print(f"Detected language: {detected_language}. Translating to English...")
+        jd_text = translate_chain.invoke({"text": jd_text}).strip()
+    else:
+        print("Job description is already in English. Skipping translation.")
+    response = jd_extraction_chain.invoke({"text": jd_text})
     pprint(response)

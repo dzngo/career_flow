@@ -1,0 +1,29 @@
+Quod Financial
+
+Quod Financial is a leading Trading software provider for capital markets. Quod Financial's products are intended for execution and liquidity research for stock exchanges, banks, and brokers. Quod Financial's solutions cover Equities, Derivatives and Currencies. Quod Financial is present in Asia, Europe and the United States.
+
+
+
+Job description
+
+You will be joining the Data Science team working on projects in Machine Learning and GenAI, for our flagrship algorithmic trading products as well as our internal software engineering.
+
+
+
+Your responsibilities include:
+
+Work on the machine learning foundation models for optimisation of algorithmic trading. Developing multiple optimisation scenarios (increasing complexity).
+Work on GenAI for knowledge management and for code generation (software and testing).
+Work on the simulators to generate an environment to run the trading scenarios for training and validation.
+Presentation of prototypes and decisions.
+
+
+Qualifications
+
+Solid knowledge of Machine Learning (including foundation mathematics), and/or GenAI,
+Very good command of Python
+Knowledge of SQL and Linux basic commands.
+Knowledge of AI deployment technologies, including Docker, Tensor Flow, etc.
+Excellent presentation skills
+Fluent English
+Willing and able to work independently.
