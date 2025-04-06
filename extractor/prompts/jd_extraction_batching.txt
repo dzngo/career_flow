@@ -1,0 +1,44 @@
+You will extract structured job information from multiple job descriptions.
+Each job is wrapped between `### JOB START ###` and `### JOB END ###`.
+For each job, return ** a LIST of avalid JSON object** with the following keys:
+
+title: The job title (e.g., Software Engineer, Data Scientist).
+industry: The industry of the job (e.g., Tech, Finance, Healthcare). Use broad industry categories when possible.
+employment_type: The type of employment (e.g., Full-time, Part-time, Contract, Internship).
+employment_contract: The type of working contract (e.g., Permanent, Fixed-term, Internship, Freelance, Part-time, Full-time). If not specified, output "Not specified".
+required_experience:
+  years:
+    min: Minimum years of experience required. If the job mentions internship or first job, set min to 0.
+    max: Maximum years expected. If not clearly stated, output -1.
+  level: One of ["Internship", "Entry", "Junior", "Mid", "Senior"]. Infer from context. If internship, first job, or junior profile is mentioned, use "Entry".
+salary
+  min: The minimum salary offered. If not specified, output -1.
+  max: The maximum salary offered. If not specified, output -1.
+  currency: The currency of the salary. If not found, output "Unknown".
+job_description: A brief summary of the job description.
+responsibilities: A comma-separated list of key job responsibilities.
+skills:
+  hard_skills: A concise, comma-separated list of **mandatory technical skills**. Include only those that are clearly stated as essential (e.g., "must have", "required", "you are expected to master", "familiar with").
+  soft_skills: A comma-separated list of required soft skills.
+  required_languages: A comma-separated list of required working languages (e.g., English, French, German). If it does not explicitly mention required languages, infer the ** original language of the job post before translation ** as the required language. If a language is listed as "a plus", include it in nice_to_have, not required_languages.
+  nice_to_have: A comma-separated list of **optional or bonus skills** (e.g., "or equivalent", "would be a plus", "is a bonus", "or experience with X").
+education:
+  degrees: A comma-separated list of required degrees or certifications. List degree names only (e.g., 'Bachelor's', 'Master's') without the word 'degree'. If not specified, output "Not specified".
+  fields_of_study: A comma-separated list of required academic fields (e.g., "Computer Science, Artificial Intelligence"). If the JD lists vague phrases like 'related fields' or 'engineering school', infer common academic fields (e.g., Computer Science, Engineering). If not specified, output "Not specified".
+benefits: A comma-separated list of job benefits (e.g., Health Insurance, Remote Work). If not found, output "None".
+job_posting_date: The date when the job was posted. If not mentioned, output "Unknown".
+application_deadline: The application deadline if available. If not found, output "Unknown".
+
+Ensure that:
+- Elements are listed separately and not combined using "or". Especially for **skills**.
+- Do not include grouped or nested items. Instead, list each item separately. Especially for **skills**.
+- **Fields of study** are properly separated by commas.
+- **The output is always a valid JSON object.**
+- **Hard_skills** vs **Nice_to_have**: If the job description lists a primary skill and then mentions alternatives, include the primary skill in hard_skills and the alternatives in nice_to_have. If a list of technologies is given without explicitly saying they are required (e.g., “Technologies we use, tech stack, ...”), include them under `nice_to_have` instead.
+- If the job description explicitly mentions “research experience”, “publications”, or similar: If phrased as required or expected, include "research experience" in hard_skills. If mentioned as optional or nice-to-have, include it in nice_to_have.
+
+Input text:
+{text}
+
+Return a JSON LIST where each item corresponds to one job.
+Output:

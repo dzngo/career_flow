@@ -1,6 +1,5 @@
 import argparse
 import os
-import time
 
 import pandas as pd
 from dotenv import load_dotenv
@@ -15,7 +14,7 @@ load_dotenv()
 
 
 def run_scraping_pipeline(
-    title, location, max_pages, prompt_dir, out_csv="scraped_jobs.csv", cache_path="cache/job_cache.json"
+    title, location, max_pages, batch_size, prompt_dir, out_csv="scraped_jobs.csv", cache_path="cache/job_cache.json"
 ):
     """
     Orchestrates the scraping and job description extraction pipeline.
@@ -31,55 +30,63 @@ def run_scraping_pipeline(
         title (str): Job title to search (e.g., "Data Scientist").
         location (str): Location to search (e.g., "Paris").
         max_pages (int): Number of result pages to scrape (each page = ~25 jobs).
+        batch_size (int): Number of job descriptions per batch.
         prompt_dir (str): Directory containing prompt templates.
         out_csv (str): Path to the output CSV file for structured results.
         cache_path (str): File path for the TinyDB cache database. Used to skip already-processed jobs.
 
     """
     os.makedirs(os.path.dirname(cache_path), exist_ok=True)
-    scraper = LinkedInScraper(title, location, max_pages)
+    scraper = LinkedInScraper(title=title, location=location, max_pages=max_pages, batch_size=batch_size)
     extractor = JDExtractor(prompt_dir)
     db = TinyDB(cache_path)
-    Job = Query()
-
-    job_ids = scraper.get_job_ids()
-    logger.info(f"Found {len(job_ids)} job IDs")
+    db_query = Query()
 
     results = []
 
-    for job_id in job_ids:
-        logger.info(f"Processing job ID: {job_id}")
-        if db.contains(Job.job_id == job_id):
-            logger.info(f"Cached result found for job ID: {job_id}")
-            results.append(db.get(Job.job_id == job_id))
+    for i, batch in enumerate(scraper):
+        logger.info(f"Processing batch #{i + 1} with {len(batch)} jobs")
+
+        # Split job IDs and texts
+        job_ids, job_texts = zip(*batch)
+
+        # Filter out already cached
+        ids_to_extract, texts_to_extract = [], []
+        for jid, text in zip(job_ids, job_texts):
+            if db.contains(db_query.job_id == jid):
+                logger.info(f"Cached result for job ID {jid}")
+                results.append(db.get(db_query.job_id == jid))
+            else:
+                ids_to_extract.append(jid)
+                texts_to_extract.append(text)
+
+        if not texts_to_extract:
             continue
 
-        jd_text = scraper.fetch_job_description(job_id)
-        if jd_text:
-            try:
-                data = extractor.extract(jd_text)
-                data["job_id"] = job_id
-                results.append(data)
-                db.insert(data)
-            except Exception as e:
-                logger.error(f"Failed to extract job {job_id}: {e}")
-        else:
-            logger.warning(f"No description found for job ID {job_id}")
-
-        time.sleep(1)
+        try:
+            extracted_batch = extractor.extract(texts_to_extract)
+            for jid, structured in zip(ids_to_extract, extracted_batch):
+                structured["job_id"] = jid
+                results.append(structured)
+                db.insert(structured)
+        except Exception as e:
+            logger.error(f"Batch #{i + 1} failed: {e}")
 
     df = pd.DataFrame(results)
     df.to_csv(out_csv, index=False)
-    logger.info(f"\nSaved {len(df)} job entries to {out_csv}")
+    logger.info(f"Saved {len(df)} job entries to {out_csv}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--title", type=str, default="Machine learning engineer")
+    parser.add_argument("--title", type=str, default="Machine learning")
     parser.add_argument("--location", type=str, default="Paris")
-    parser.add_argument("--max-pages", type=int, default=60)
+    parser.add_argument("--max-pages", type=int, default=600)
     parser.add_argument("--prompt-dir", type=str, default="extractor/prompts")
     parser.add_argument("--output", type=str, default="scraped_jobs.csv")
+    parser.add_argument("--batch-size", type=int, default=5)
+    parser.add_argument("--cache", type=str, default="cache/job_cache.json")
+
     args = parser.parse_args()
 
     run_scraping_pipeline(
@@ -88,4 +95,6 @@ if __name__ == "__main__":
         max_pages=args.max_pages,
         prompt_dir=args.prompt_dir,
         out_csv=args.output,
+        cache_path=args.cache,
+        batch_size=args.batch_size,
     )

@@ -14,7 +14,6 @@ class JDExtractor:
     def __init__(self, prompt_dir):
         """
         Initialize JDExtractor with prompt directory.
-
         Args:
             prompt_dir (str): Path to the directory containing prompt templates.
         """
@@ -24,27 +23,35 @@ class JDExtractor:
     def _load_prompts(self, prompt_dir):
         """
         Load all prompt templates from the directory.
-
         Returns:
             dict[str, ChatPromptTemplate]: Dictionary of prompt templates.
         """
         return {
-            "extract": load_prompt(os.path.join(prompt_dir, "jd_extraction.txt")),
-            "translate": load_prompt(os.path.join(prompt_dir, "translation.txt")),
+            "extract": load_prompt(os.path.join(prompt_dir, "jd_extraction_batching.txt")),
+            "translate": load_prompt(os.path.join(prompt_dir, "translation_batching.txt")),
         }
 
-    def extract(self, jd_text):
+    def format_jobs_for_batching(self, job_texts):
         """
-        Perform language detection, translation if needed, and structured extraction.
-
+        Wrap job descriptions with batch delimiters.
         Args:
-            jd_text (str): Raw job description text.
-
+            job_texts (list[str]): List of job description texts.
         Returns:
-            dict: Extracted structured data from the job description.
+            str: Combined formatted batch text.
         """
+        return "\n\n".join(f"### JOB START ###\n{text.strip()}\n### JOB END ###" for text in job_texts)
+
+    def extract(self, job_texts):
+        """
+        Perform translation and extraction on a batch of job descriptions.
+        Args:
+            job_texts (list[str]): List of raw job descriptions.
+        Returns:
+            list[dict]: Extracted structured results for each job.
+        """
+        batched_text = self.format_jobs_for_batching(job_texts)
         translate_chain = self.prompts["translate"] | self.llm | StrOutputParser()
         extract_chain = self.prompts["extract"] | self.llm | JsonOutputParser()
         full_chain = translate_chain | extract_chain
 
-        return full_chain.invoke({"text": jd_text})
+        return full_chain.invoke({"text": batched_text})

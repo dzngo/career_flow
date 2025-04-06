@@ -13,7 +13,7 @@ class LinkedInScraper:
     Scrapes job postings from LinkedIn based on job title and location.
     """
 
-    def __init__(self, title, location, max_pages=1, delay=1):
+    def __init__(self, title, location, max_pages=1, delay=1, batch_size=5):
         """
         Initialize the LinkedInScraper.
         Args:
@@ -21,11 +21,34 @@ class LinkedInScraper:
             location (str): Job location.
             max_pages (int): Number of pages to paginate through.
             delay (int): Delay between requests (in seconds).
+            batch_size (int): Number of job descriptions per batch.
         """
         self.title = title
         self.location = location
         self.max_pages = max_pages
         self.delay = delay
+        self.batch_size = batch_size
+        self.job_ids = self.get_job_ids()
+
+    def __len__(self):
+        return len(self.job_ids)
+
+    def __iter__(self):
+        """
+        Iterates over batches of job descriptions.
+        Yields:
+            list[tuple[job_id, job_text]]
+        """
+        batch = []
+        for job_id in self.job_ids:
+            job_text = self.fetch_job_description(job_id)
+            if job_text:
+                batch.append((job_id, job_text))
+            if len(batch) >= self.batch_size:
+                yield batch
+                batch = []
+        if batch:
+            yield batch
 
     def get_job_ids(self):
         """
@@ -52,6 +75,7 @@ class LinkedInScraper:
                     job_ids.append(job_id)
             time.sleep(self.delay)
             start += len(jobs)
+        logger.info(f"Found {len(job_ids)} job IDs")
         return job_ids
 
     def fetch_job_description(self, job_id):
