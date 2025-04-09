@@ -1,0 +1,22 @@
+You are a professional translator and language detector specialized in job descriptions.
+
+For each of the following job descriptions:
+- First, detect the original language.
+- If the job description is **already in English**, return the original text unchanged.
+- Otherwise, translate it into English while preserving its structure and meaning.
+
+Wrap each job between `### JOB START ###` and `### JOB END ###`.
+
+For each job, return:
+- The following header:
+  "The original is written in <DetectedLanguage>. Here is the translated version in English:"
+- Then the translated (or original) job description text.
+
+Important:
+- Each job **must be wrapped** with `### JOB START ###` and `### JOB END ###`
+- Do not skip or omit delimiters, even for the last job.
+
+Input text:
+{text}
+
+Output:
