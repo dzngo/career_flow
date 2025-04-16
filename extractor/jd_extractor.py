@@ -1,4 +1,5 @@
 import os
+from typing import Dict, List
 
 from langchain_core.output_parsers import JsonOutputParser, StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -11,16 +12,18 @@ class JDExtractor:
     Extracts structured job information using LangChain and prompt templates.
     """
 
-    def __init__(self, prompt_dir):
+    def __init__(self, prompt_dir: str, llm=None):
         """
-        Initialize JDExtractor with prompt directory.
+        Initialize JDExtractor with prompt directory and optional LLM model.
+
         Args:
             prompt_dir (str): Path to the directory containing prompt templates.
+            llm (BaseLanguageModel, optional): Custom LLM instance. Defaults to Gemini 2.0 Flash.
         """
-        self.llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+        self.llm = llm or ChatGoogleGenerativeAI(model="gemini-2.0-flash")
         self.prompts = self._load_prompts(prompt_dir)
 
-    def _load_prompts(self, prompt_dir):
+    def _load_prompts(self, prompt_dir: str) -> Dict[str, object]:
         """
         Load all prompt templates from the directory.
         Returns:
@@ -31,7 +34,7 @@ class JDExtractor:
             "translate": load_prompt(os.path.join(prompt_dir, "translation_batching.txt")),
         }
 
-    def format_jobs_for_batching(self, job_texts):
+    def format_jobs_for_batching(self, job_texts: List[str]) -> str:
         """
         Wrap job descriptions with batch delimiters.
         Args:
@@ -41,7 +44,7 @@ class JDExtractor:
         """
         return "\n\n".join(f"### JOB START ###\n{text.strip()}\n### JOB END ###" for text in job_texts)
 
-    def extract(self, job_texts):
+    def extract(self, job_texts: List[str]) -> List[Dict]:
         """
         Perform translation and extraction on a batch of job descriptions.
         Args:
