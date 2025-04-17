@@ -1,4 +1,5 @@
 import time
+from typing import Iterator, List, Optional, Tuple
 
 import requests
 from bs4 import BeautifulSoup
@@ -11,11 +12,13 @@ logger = get_logger(__name__)
 class LinkedInScraper:
     """
     Scrapes job postings from LinkedIn based on job title and location.
+    Retrieves job IDs, fetches detailed job descriptions, and yields batches of job texts.
     """
 
-    def __init__(self, title, location, max_pages=1, delay=1, batch_size=5):
+    def __init__(self, title: str, location: str, max_pages: int = 1, delay: int = 1, batch_size: int = 5):
         """
         Initialize the LinkedInScraper.
+
         Args:
             title (str): Job title to search for.
             location (str): Job location.
@@ -30,14 +33,21 @@ class LinkedInScraper:
         self.batch_size = batch_size
         self.job_ids = self.get_job_ids()
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """
+        Return the number of job IDs fetched.
+
+        Returns:
+            int: Number of job postings found.
+        """
         return len(self.job_ids)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[List[Tuple[str, str]]]:
         """
         Iterates over batches of job descriptions.
+
         Yields:
-            list[tuple[job_id, job_text]]
+            List[Tuple[str, str]]: A batch of (job_id, job_text) tuples.
         """
         batch = []
         for job_id in self.job_ids:
@@ -50,11 +60,12 @@ class LinkedInScraper:
         if batch:
             yield batch
 
-    def get_job_ids(self):
+    def get_job_ids(self) -> List[str]:
         """
         Retrieve job posting IDs from LinkedIn search results.
+
         Returns:
-            list[str]: List of job posting IDs.
+            List[str]: List of job posting IDs.
         """
         job_ids = []
         start = 0
@@ -78,13 +89,15 @@ class LinkedInScraper:
         logger.info(f"Found {len(job_ids)} job IDs")
         return job_ids
 
-    def fetch_job_description(self, job_id):
+    def fetch_job_description(self, job_id: str) -> Optional[str]:
         """
         Fetch the job description and salary for a given job ID.
+
         Args:
             job_id (str): LinkedIn job ID.
+
         Returns:
-            str or None: Full job text (salary + description), or None if not found.
+            Optional[str]: Full job text (salary + description), or None if not found.
         """
         url = f"https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/{job_id}"
         response = requests.get(url, timeout=10)
