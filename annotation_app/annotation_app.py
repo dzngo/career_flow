@@ -17,7 +17,7 @@ st.markdown(
         color: #31333F !important;            /* dark text */
         background-color: #F0F2F6 !important; /* input bg */
         border: 1px solid #D3D3D3 !important; /* same border */
-        opacity: 1 !important;               /* unfade */
+        opacity: 1 !important;               /* unfaded */
         -webkit-text-fill-color: #31333F !important;
       }
     }
@@ -63,6 +63,15 @@ def _safe_json_loads(val):
     return {}
 
 
+def _handle_nan_str(val):
+    """Return an empty string for None or NaN, otherwise cast to string."""
+    if isinstance(val, float) and pd.isna(val):
+        return ""
+    if val is None:
+        return ""
+    return str(val)
+
+
 def _to_list(val):
     """Ensure the returned value is a list of strings."""
     if isinstance(val, list):
@@ -104,11 +113,23 @@ if uploaded_file:
     # --------------- RIGHT COLUMN : editable annotations ------------
     with col_right:
         st.markdown("### Annotation")
+        # ---- Title & Industry ----
         title_col, industry_col = st.columns(2)
         with title_col:
-            row["title"] = st.text_input("Job Title", value=row.get("title", ""))
+            row["title"] = st.text_input("Job Title", value=_handle_nan_str(row.get("title", "")))
         with industry_col:
-            row["industry"] = st.text_input("Industry", value=row.get("industry", ""))
+            row["industry"] = st.text_input("Industry", value=_handle_nan_str(row.get("industry", "")))
+
+        # ---- Employment Type & Contract in two columns ----
+        emp_type_col, emp_contract_col = st.columns(2)
+        with emp_type_col:
+            row["employment_type"] = st.text_input(
+                "Employment Type", value=_handle_nan_str(row.get("employment_type", ""))
+            )
+        with emp_contract_col:
+            row["employment_contract"] = st.text_input(
+                "Employment Contract", value=_handle_nan_str(row.get("employment_contract", ""))
+            )
 
         # ---- nested: Skills ----------------------------------------------
         st.markdown("##### Skills")
@@ -202,6 +223,8 @@ if uploaded_file:
             # save simple fields
             st.session_state.df.at[idx, "title"] = row["title"]
             st.session_state.df.at[idx, "industry"] = row["industry"]
+            st.session_state.df.at[idx, "employment_type"] = row["employment_type"]
+            st.session_state.df.at[idx, "employment_contract"] = row["employment_contract"]
 
             # build updated skills dict then dump to JSON string
             skills_data["hard_skills"] = hard
