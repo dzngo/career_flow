@@ -1,3 +1,4 @@
+import ast
 import json
 
 import pandas as pd
@@ -53,13 +54,9 @@ def _safe_json_loads(val):
         return val
     if isinstance(val, str):
         try:
-            # tolerate single quotes in CSV
-            return json.loads(val)
-        except json.JSONDecodeError:
-            try:
-                return json.loads(val.replace("'", '"'))
-            except Exception:
-                pass
+            return ast.literal_eval(val)
+        except Exception:
+            pass
     return {}
 
 
