@@ -12,16 +12,18 @@ class JDExtractor:
     Extracts structured job information using LangChain and prompt templates.
     """
 
-    def __init__(self, prompt_dir: str, llm=None):
+    def __init__(self, prompt_dir: str, llm=None, use_translation: bool = False):
         """
         Initialize JDExtractor with prompt directory and optional LLM model.
 
         Args:
             prompt_dir (str): Path to the directory containing prompt templates.
             llm (BaseLanguageModel, optional): Custom LLM instance. Defaults to Gemini 2.0 Flash.
+            use_translation (bool): Whether to enable translation step. Defaults to False.
         """
         self.llm = llm or ChatGoogleGenerativeAI(model="gemini-2.0-flash")
         self.prompts = self._load_prompts(prompt_dir)
+        self.use_translation = use_translation
 
     def _load_prompts(self, prompt_dir: str) -> Dict[str, object]:
         """
@@ -46,15 +48,19 @@ class JDExtractor:
 
     def extract(self, job_texts: List[str]) -> List[Dict]:
         """
-        Perform translation and extraction on a batch of job descriptions.
+        Perform translation (if enabled) and extraction on a batch of job descriptions.
         Args:
             job_texts (list[str]): List of raw job descriptions.
         Returns:
             list[dict]: Extracted structured results for each job.
         """
         batched_text = self.format_jobs_for_batching(job_texts)
-        translate_chain = self.prompts["translate"] | self.llm | StrOutputParser()
-        extract_chain = self.prompts["extract"] | self.llm | JsonOutputParser()
-        full_chain = translate_chain | extract_chain
+
+        if self.use_translation:
+            translate_chain = self.prompts["translate"] | self.llm | StrOutputParser()
+            extract_chain = self.prompts["extract"] | self.llm | JsonOutputParser()
+            full_chain = translate_chain | extract_chain
+        else:
+            full_chain = self.prompts["extract"] | self.llm | JsonOutputParser()
 
         return full_chain.invoke({"text": batched_text})

@@ -21,7 +21,7 @@ skills:
   required_languages: A comma-separated list of required working languages (e.g., English, French, German). If it does not explicitly mention required languages, infer the original language of the job post (before translation) as the required language. If a language is listed as "a plus", include it in nice_to_have, not required_languages.
   nice_to_have: A comma-separated list of **optional or bonus skills** (e.g., "or equivalent", "would be a plus", "is a bonus", "or experience with X").
 education:
-  degrees: A comma-separated list of required degrees or certifications. List degree names only (e.g., 'Bachelor's', 'Master's') without the word 'degree'. If not specified, output "Not specified".
+  degrees: A comma-separated list of required degrees or certifications. List degree names only (e.g., Bachelor, Master) ** without the word degree **. If not specified, output "Not specified".
   fields_of_study: A comma-separated list of required academic fields (e.g., "Computer Science, Artificial Intelligence"). If the JD lists vague phrases like 'related fields' or 'engineering school', infer common academic fields (e.g., Computer Science, Engineering). If not specified, output "Not specified".
 benefits: A comma-separated list of job benefits (e.g., Health Insurance, Remote Work). If not found, output "None".
 job_posting_date: The date when the job was posted. If not mentioned, output "Unknown".
