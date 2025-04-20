@@ -8,7 +8,7 @@ def get_llm(model_name: str):
     Returns:
         BaseLanguageModel: An instance of the selected LLM.
     """
-    if model_name == "gemini-2.0-flash":
+    if model_name in ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.0-flash-lite"]:
         from langchain_google_genai import ChatGoogleGenerativeAI
 
         return ChatGoogleGenerativeAI(model=model_name)
