@@ -119,9 +119,9 @@ class OpenAILLM(BaseLLM):
 def get_llm(model_name: Optional[str] = None) -> BaseLLM:
     """Instantiate the appropriate LLM wrapper based on the requested model."""
     if model_name is None:
-        model_name = "gemini-2.0-flash"
+        model_name = "gemini-2.5-flash"  # default model
 
-    if model_name.lower() in ["gemini-2.0-flash"]:
+    if model_name.lower() in ["gemini-2.5-flash"]:
         api_key = os.getenv("GOOGLE_API_KEY")
         if not api_key:
             raise EnvironmentError(f"GOOGLE_API_KEY  must be set to use {model_name} models")

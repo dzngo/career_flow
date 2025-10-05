@@ -10,32 +10,36 @@ from utils.prompt_loader import load_prompt
 class ExperienceYears(BaseModel):
     """Years of experience requirement."""
 
-    min: int = Field(..., description="Minimum required years of experience. Use -1 when unspecified.")
-    max: int = Field(..., description="Maximum expected years of experience. Use -1 when unspecified.")
+    min: int = Field(description="Minimum required years of experience. Use -1 when unspecified.")
+    max: int = Field(description="Maximum expected years of experience. Use -1 when unspecified.")
 
 
 class RequiredExperience(BaseModel):
     """Experience requirement structure."""
 
     years: ExperienceYears
-    level: str = Field(..., description="Experience level such as Internship, Entry, Junior, Mid, or Senior.")
+    level: str = Field(description="Experience level such as Internship, Entry, Junior, Mid, or Senior.")
 
 
 class Salary(BaseModel):
     """Salary range details."""
 
-    min: int = Field(..., description="Minimum salary value or -1 when unspecified.")
-    max: int = Field(..., description="Maximum salary value or -1 when unspecified.")
-    currency: str = Field(..., description="Salary currency code, empty string when unknown.")
+    min: int = Field(description="Minimum salary value or -1 when unspecified.")
+    max: int = Field(description="Maximum salary value or -1 when unspecified.")
+    currency: str = Field(description="Salary currency code, empty string when unknown.")
 
 
 class Skills(BaseModel):
     """Skills grouping."""
 
-    hard_skills: List[str] = Field(..., description="List of mandatory technical skills.")
-    soft_skills: List[str] = Field(..., description="List of expected soft skills.")
-    required_languages: List[str] = Field(..., description="List of required working languages.")
-    nice_to_have: List[str] = Field(..., description="List of optional or nice-to-have skills.")
+    hard_skills: List[str] = Field(description="List of mandatory technical skills.")
+    soft_skills: List[str] = Field(description="List of expected soft skills.")
+    required_languages: List[str] = Field(
+        description="List of required working languages  (e.g., English, French, German). If it does not "
+        "explicitly mention required languages, infer the ** original language of the job post as the required "
+        "language **. If a language is listed as 'a plus', include it in nice_to_have, not required_languages..",
+    )
+    nice_to_have: List[str] = Field(description="List of optional or nice-to-have skills.")
 
     @classmethod
     @field_validator("hard_skills", "soft_skills", "required_languages", "nice_to_have", mode="before")
@@ -54,8 +58,8 @@ class Skills(BaseModel):
 class Education(BaseModel):
     """Education requirements."""
 
-    degrees: List[str] = Field(..., description="List of required degrees or certifications.")
-    fields_of_study: List[str] = Field(..., description="List of academic fields required for the role.")
+    degrees: List[str] = Field(description="List of required degrees or certifications.")
+    fields_of_study: List[str] = Field(description="List of academic fields required for the role.")
 
     @classmethod
     @field_validator("degrees", "fields_of_study", mode="before")
@@ -74,20 +78,18 @@ class Education(BaseModel):
 class JobExtraction(BaseModel):
     """Structured representation of a single job description."""
 
-    title: str = Field(..., description="Job title such as Software Engineer or Data Scientist.")
-    industry: str = Field(..., description="High-level industry categorization (e.g., Tech, Finance).")
-    employment_type: str = Field(..., description="Employment type, for example Full-time or Contract.")
-    employment_contract: str = Field(..., description="Contract style such as Permanent, Fixed-term, or Freelance.")
+    title: str = Field(description="Job title such as Software Engineer or Data Scientist.")
+    industry: str = Field(description="High-level industry categorization (e.g., Tech, Finance).")
+    employment_type: str = Field(description="Employment type, for example Full-time or Contract.")
+    employment_contract: str = Field(description="Contract style such as Permanent, Fixed-term, or Freelance.")
     required_experience: RequiredExperience = Field(
-        ..., description="Experience requirements inferred from the job description."
+        description="Experience requirements inferred from the job description."
     )
-    salary: Salary = Field(..., description="Salary range details including min, max, and currency.")
-    skills: Skills = Field(
-        ..., description="Grouped skill requirements covering hard, soft, language, and optional skills."
-    )
-    education: Education = Field(..., description="Expected education level and relevant fields of study.")
-    responsibilities: str = Field(..., description="Quoted responsibilities or missions extracted from the posting.")
-    tech_stack: str = Field(..., description="Quoted technologies or tooling mentioned for the role.")
+    salary: Salary = Field(description="Salary range details including min, max, and currency.")
+    skills: Skills = Field(description="Grouped skill requirements covering hard, soft, language, and optional skills.")
+    education: Education = Field(description="Expected education level and relevant fields of study.")
+    responsibilities: str = Field(description="Quoted responsibilities or missions extracted from the posting.")
+    tech_stack: str = Field(description="Quoted technologies or tooling mentioned for the role.")
 
 
 class JobExtractionList(RootModel[List[JobExtraction]]):
