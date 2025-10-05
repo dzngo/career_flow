@@ -43,7 +43,7 @@ def run_scraping_pipeline(
         location (str): Job location to search (e.g., "Paris").
         max_pages (int): Maximum paginated pages to retrieve job IDs.
         batch_size (int): Number of job descriptions to process per batch.
-        prompt_dir (str): Directory containing LangChain prompt templates.
+        prompt_dir (str): Directory containing prompt templates.
         out_csv (str): Output CSV path for structured results.
         raw_cache_path (Optional[str]): Path to JSON cache of raw job texts, or None to disable.
         structured_cache_path (Optional[str]): Path to TinyDB JSON cache for structured results, or None to disable.
